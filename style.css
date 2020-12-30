@@ -1,0 +1,19 @@
+tr td:last-child .btn-primary,
+tr td:last-child .btn-warning {
+    display: none;
+}
+
+tr td:last-child .btn-info,
+tr td:last-child .btn-danger {
+    display: inline-block;
+}
+
+tr.is-edit td:last-child .btn-primary,
+tr.is-edit td:last-child .btn-warning {
+    display: inline-block;
+}
+
+tr.is-edit td:last-child .btn-info,
+tr.is-edit td:last-child .btn-danger {
+    display: none;
+}
