@@ -32,7 +32,7 @@ const createReadOnlyTr = item => {
     <tr>
       <td>
         <div class="form-check">
-          <input class="form-check-input" ${item.checked ? 'checked' : ''} type="checkbox" value="">
+          <input onclick="toggleTickRow(${item.id})" class="form-check-input" ${item.checked ? 'checked' : ''} type="checkbox" value="">
         </div>
       </td>
       <td>${item.id}</td>
@@ -40,9 +40,7 @@ const createReadOnlyTr = item => {
       <td>${gender}</td>
       <td>${item.age}</td>
       <td>
-        <button class="btn btn-info btn-sm">Edit</button>
-        <button class="btn btn-primary btn-sm">Save</button>
-        <button class="btn btn-warning btn-sm">Cancel</button>
+        <button class="btn btn-info btn-sm" onclick="setEditMode(${item.id}, true)">Edit</button>
         <button class="btn btn-danger btn-sm">Delete</button>
       </td>
     </tr>
@@ -61,15 +59,26 @@ const createEditingTr = item => {
           <input class="form-check-input" ${item.checked ? 'checked' : ''} type="checkbox" value="">
         </div>
       </td>
-      <td>${item.id}</td>
-      <td>${item.fullName}</td>
-      <td>${gender}</td>
+
+      <td>
+        <input class="form-control" value="${item.id}" disabled />
+      </td>
+
+      <td>
+        <input class="form-control" value="${item.fullName}" />
+      </td>
+
+      <td>
+        <select class="form-select" aria-label="Chọn giới tính">
+          <option ${item.gender === 'male' ? 'selected' : ''} value="male">Nam</option>
+          <option ${item.gender === 'female' ? 'selected' : ''} value="female">Nữ</option>
+        </select>
+      </td>
+
       <td>${item.age}</td>
       <td>
-        <button class="btn btn-info btn-sm">Edit</button>
         <button class="btn btn-primary btn-sm">Save</button>
-        <button class="btn btn-warning btn-sm">Cancel</button>
-        <button class="btn btn-danger btn-sm">Delete</button>
+        <button class="btn btn-warning btn-sm"  onclick="setEditMode(${item.id}, false)">Cancel</button>
       </td>
     </tr>
   `
@@ -77,7 +86,7 @@ const createEditingTr = item => {
   return html
 }
 
-const render = data => {
+const render = () => {
   const table = document.getElementById('table-body')
   let html = ''
 
@@ -88,4 +97,15 @@ const render = data => {
   table.innerHTML = html
 }
 
-render(data)
+const toggleTickRow = id => {
+  const item = data.find(row => row.id === id)
+  item.checked = !item.checked
+}
+
+const setEditMode = (id, isEdit) => {
+  const item = data.find(row => row.id === id)
+  item.isEdit = isEdit
+  render()
+}
+
+render()
